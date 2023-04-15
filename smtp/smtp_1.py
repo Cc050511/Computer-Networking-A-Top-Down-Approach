@@ -4,8 +4,8 @@ import ssl
 
 msg = "\r\n I love math!\nI love computer networks!"
 endmsg = "\r\n.\r\n"
-account = 'chenzm39@gmail.com'
-password = 'wcsqnvuiifrvuyqs'  # app password
+account = 'xxx@gmail.com'
+password = 'xxxxxx'  # app password
 # Choose a mail server (e.g. Google mail server) and call it mailserver
 mailserver = 'smtp.gmail.com'  # Fill in start #Fill in end
 # Create socket called clientSocket and establish a TCP connection with mailserver
@@ -54,9 +54,9 @@ g((base64.b64encode(password.encode()) + b'\r\n').decode(), 334)
 
 # Send RCPT TO command and print server response.
 # Fill in start
-toCommand = 'MAIL FROM: <chenzm39@gmail.com>\r\n'
+toCommand = 'MAIL FROM: <xxx@gmail.com>\r\n'
 g(toCommand, 250)
-toCommand = 'RCPT TO: <chenzm39@qq.com>\r\n'
+toCommand = 'RCPT TO: <xxx@qq.com>\r\n'
 g(toCommand, 250)
 # Fill in end
 # Send DATA command and print server response.
