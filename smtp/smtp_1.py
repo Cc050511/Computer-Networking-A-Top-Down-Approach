@@ -1,13 +1,11 @@
 from socket import *
 import base64
 import ssl
-# msg = 'FROM: chenzm39@qq.com\r\n'
-# msg += 'TO: chenzm39@gmail.com\r\n'
-# msg += 'Subject: ' + 'test' +  '\r\n'
-# msg += "\r\n I love computer networks!"
-# endmsg = "\r\n.\r\n"
-msg = "\r\n I love computer networks!"
+
+msg = "\r\n I love math!\nI love computer networks!"
 endmsg = "\r\n.\r\n"
+account = 'chenzm39@gmail.com'
+password = 'wcsqnvuiifrvuyqs'  # app password
 # Choose a mail server (e.g. Google mail server) and call it mailserver
 mailserver = 'smtp.gmail.com'  # Fill in start #Fill in end
 # Create socket called clientSocket and establish a TCP connection with mailserver
@@ -25,7 +23,6 @@ def f(message, flag):
         print('{flag} reply not received from server.')
 
 
-
 recv = clientSocket.recv(1024).decode()
 print(recv)
 if recv[:3] != '220':
@@ -34,10 +31,10 @@ if recv[:3] != '220':
 heloCommand = 'HELO Alice\r\n'
 f(heloCommand, 250)
 
-# heloCommand = 'STARTTLS\r\n'
-# f(heloCommand, 334)
-f("STARTTLS\r\n",334)
-sslclientSocket = ssl.wrap_socket(clientSocket)
+f("STARTTLS\r\n", 334)
+ctx = ssl.create_default_context()
+sslclientSocket = ctx.wrap_socket(clientSocket, server_hostname=mailserver)
+
 
 def g(message, flag):
     sslclientSocket.write(message.encode())
@@ -45,15 +42,15 @@ def g(message, flag):
     print(recv)
     if recv[:3] == flag:
         print('{flag} reply not received from server.')
-        
+
 
 heloCommand = 'AUTH LOGIN\r\n'
 g(heloCommand, 334)
 
 
-g((base64.b64encode(("chenzm39@gmail.com").encode()) + b'\r\n').decode(), 334)
+g((base64.b64encode((account).encode()) + b'\r\n').decode(), 334)
 
-g((base64.b64encode(("q1615029259").encode()) + b'\r\n').decode(), 334)
+g((base64.b64encode(password.encode()) + b'\r\n').decode(), 334)
 
 # Send RCPT TO command and print server response.
 # Fill in start
@@ -69,8 +66,6 @@ g(dataCommand, 354)
 # Fill in end
 # Send message data.
 # Fill in start
-# 发送数据格式为邮件报文格式，包含首部行(from,to,可选subject)
-# 不同于上述SMTP命令，首部行是自身的一部分，不能省略。
 # clientSocket.send('FROM: chenzm39@qq.com\r\n'.encode())
 sslclientSocket.write(msg.encode())
 # Fill in end
@@ -83,5 +78,5 @@ g(endmsg, 250)
 quitCommand = 'QUIT\r\n'
 g(quitCommand, 221)
 
-clientSocket.close
+clientSocket.close()
 # Fill in end

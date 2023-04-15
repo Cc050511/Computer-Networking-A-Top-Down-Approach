@@ -33,3 +33,18 @@ TimeoutError: [WinError 10060] 由于连接方在一段时间后没有正确答�
 
 ### 未知原因导致无法与邮件服务器建立TCP连接
 目前所学无法得知具体原因，猜测为**网络状况差**
+
+# 4.15更新，`smtp_1.py`运行成功
+1. 不需要vpn就可以连接到smtp.gmail.com
+2. 在STARTTLS命令后为socket套上ssl加密
+3. 开启谷歌两步验证，并获取一个app password替换密码登录
+4. gmail可以不包含FROM和TO首部，仅需主体与结束语句独占一行的`.`
+
+```
+\r\n I love computer networks!\r\n 
+.\r\n
+```
+
+一些关于登录命令的讲解[click here](https://www.samlogic.net/articles/smtp-commands-reference-auth.htm)
+
+对于解决`Username and Password not accepted`有很好帮助的[回答](https://stackoverflow.com/questions/75021886/gmail-smtp-send-535-5-7-8-username-and-password-not-accepted)
